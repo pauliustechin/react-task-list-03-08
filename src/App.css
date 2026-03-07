@@ -3,4 +3,9 @@
   height: 100%;
   margin: 0 auto;
   text-align: center;
+  padding: 3rem;
+}
+
+.test {
+  color:#e7e3e3
 }
