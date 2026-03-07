@@ -7,5 +7,13 @@
 }
 
 .test {
-  color:#e7e3e3
+  color:#8b8686
+}
+
+@layer {
+  .my-input{
+    border: 1px solid rgb(218, 213, 213);
+    height: 2.5rem;
+    border-radius: 10px;
+  }
 }
