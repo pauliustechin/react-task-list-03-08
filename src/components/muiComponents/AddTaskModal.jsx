@@ -4,6 +4,8 @@ import Modal from "@mui/material/Modal";
 import { IoClose } from "react-icons/io5";
 import MyButton from "./MyButton";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import useTasksStore from "../../store/tasksStore";
 
 const style = {
   position: "absolute",
@@ -26,6 +28,26 @@ export default function AddTaskModal({ open, setOpen }) {
     setPick(e.target.value);
   };
 
+  const { addTask } = useTasksStore((state) => state);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (formData) => {
+    const sendData = {
+      ...formData,
+      progress: 0,
+      priority: pick,
+    }
+
+    addTask(sendData);
+
+  };
+
   return (
     <div>
       <Modal
@@ -46,14 +68,25 @@ export default function AddTaskModal({ open, setOpen }) {
             </Typography>
             <IoClose className="text-4xl" onClick={handleClose} />
           </div>
-          <form className="flex flex-col mb-10">
+          <form
+            className="flex flex-col mb-10"
+            id="addForm"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <label htmlFor="">Task</label>
-            <input type="text" className="my-input" />
+            <input
+              type="text"
+              className="my-input"
+              id="name"
+              {...register("name", {
+                required: "This field is required",
+              })}
+            />
+            <p>{errors?.name?.message}</p>
           </form>
           <p>Priority</p>
-          <div className="mb-15">
+          <div className="mb-15 flex gap-4">
             <MyButton
-              // pick
               variant={pick === "High" ? "contained" : "outlined"}
               value="High"
               color={pick === "High" ? "#fff" : "red"}
@@ -78,10 +111,11 @@ export default function AddTaskModal({ open, setOpen }) {
 
           <div className="flex justify-end mr-10">
             <MyButton
+              type="submit"
+              form="addForm"
               variant="contained"
               value="ADD"
               bgcolor="#5e24c9"
-              onClick={handlePick}
             />
           </div>
         </Box>

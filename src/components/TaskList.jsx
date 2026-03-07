@@ -4,13 +4,17 @@ import { useState } from "react";
 import MyButton from "./muiComponents/MyButton";
 import DeleteModal from "./muiComponents/DeleteModal"
 import EditTaskModal from "./muiComponents/EditTaskModal"
+import useTasksStore from "../store/tasksStore";
 
 const TaskList = () => {
 
-  const [ open, setOpen ] = useState(false);
+  const { tasks } = useTasksStore(state => state);
+
+  const [ openAdd, setOpenAdd ] = useState(false);
+  // const [ open, setOpen ] = useState(false);
 
   const handleClick = () => {
-    setOpen(true);
+    setOpenAdd(true);
   }
 
   return (
@@ -25,11 +29,11 @@ const TaskList = () => {
         ></MyButton>
       </div>
       <div>
-        <TaskCard></TaskCard>
+        {tasks?.map(task => <TaskCard key={task.id} task={task}></TaskCard>)}
       </div>
-      <AddTaskModal open={open} setOpen={setOpen} />
+      <AddTaskModal onClick={handleClick} open={openAdd} setOpen={setOpenAdd} />
       <DeleteModal />
-      <EditTaskModal open={open} setOpen={setOpen} />
+      {/* <EditTaskModal open={open} setOpen={setOpen} value="edit" /> */}
     </div>
   );
 };

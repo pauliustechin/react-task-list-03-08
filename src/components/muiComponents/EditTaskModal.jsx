@@ -44,7 +44,7 @@ export default function AddTaskModal({ open, setOpen }) {
               component="h2"
               sx={{ fontWeight: "bold", fontSize: "2rem" }}
             >
-              Add Task
+              Edit Task
             </Typography>
             <IoClose className="text-4xl" onClick={handleClose} />
           </div>
@@ -53,9 +53,8 @@ export default function AddTaskModal({ open, setOpen }) {
             <input type="text" className="my-input" />
           </form>
           <p>Priority</p>
-          <div className="mb-15">
+          <div className="mb-15 flex gap-4">
             <MyButton
-              // pick
               variant={pick === "High" ? "contained" : "outlined"}
               value="High"
               color={pick === "High" ? "#fff" : "red"}
@@ -81,7 +80,7 @@ export default function AddTaskModal({ open, setOpen }) {
           <div className="flex justify-end mr-10">
             <MyButton
               variant="contained"
-              value="ADD"
+              value="Edit"
               bgcolor="#5e24c9"
               onClick={handlePick}
             />
