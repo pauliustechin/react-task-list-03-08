@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import './App.css'
 import TaskList from './components/TaskList'
 import useTasksStore from './store/tasksStore'
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
   return (
     <>
     <TaskList></TaskList>
+    <Toaster position='bottom-center' />
     </>
   )
 }

@@ -14,6 +14,7 @@ const useTasksStore = create(devtools((set) => ({
       set(() => ({ tasks: data.reverse()}));
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   },
 
@@ -24,6 +25,7 @@ const useTasksStore = create(devtools((set) => ({
       toast.success("Item added succesfully");
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   },
 
@@ -37,6 +39,7 @@ const useTasksStore = create(devtools((set) => ({
       toast.success("Item deleted succesfully");
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   },
 
@@ -54,8 +57,10 @@ const useTasksStore = create(devtools((set) => ({
         })
         return {tasks: [...updatedArray]}
       })
+      toast.success("Item edited successfully")
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      toast.error(error.message);
     }
   }
 })));
