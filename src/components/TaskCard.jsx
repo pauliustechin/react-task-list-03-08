@@ -1,13 +1,14 @@
+import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
-import { Button } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
+import DeleteModal from "./muiComponents/DeleteModal";
+import MyButton from "./muiComponents/MyButton";
 
 const TaskCard = ({ task }) => {
-  const { name, progress, priority } = task;
+  const { id, name, progress, priority } = task;
 
   let priorityColor = "green";
-
   switch (priority) {
     case "High":
       priorityColor = "text-red-600";
@@ -22,8 +23,14 @@ const TaskCard = ({ task }) => {
       priorityColor = "#fff";
   }
 
+  const [deleteItem, setDeleteItem] = useState(false);
+
+  const handleDeleteItem = () => {
+    setDeleteItem(true);
+  };
+
   return (
-    <div className="flex flex-[2_1_auto] w-full bg-white p-6 rounded-2xl justify-between items-center shadow">
+    <div className="flex w-full bg-white p-6 rounded-2xl justify-between items-center shadow">
       <div className="text-start w-30">
         <p className="text-gray-500">Task</p>
         <p className="font-bold">{name}</p>
@@ -32,17 +39,11 @@ const TaskCard = ({ task }) => {
         <p>Priority</p>
         <p className={`font-bold ${priorityColor}`}>{priority}</p>
       </div>
-      <Button
+      <MyButton
         variant="contained"
-        sx={{
-          bgcolor: "#e7e3e3",
-          color: "#5a5757",
-          fontWeight: "bold",
-          height: "fit-content",
-        }}
-      >
-        To Do
-      </Button>
+        bgcolor="#e7e3e3"
+        color="#5a5757"
+      >To Do</MyButton>
       <CircularProgress
         variant="determinate"
         enableTrackSlot
@@ -51,7 +52,11 @@ const TaskCard = ({ task }) => {
       />
       <div className="flex gap-4">
         <FaRegEdit className="size-8" />
-        <MdDeleteOutline className="text-red-500 size-8" />
+        <MdDeleteOutline
+          className="text-red-500 size-8"
+          onClick={handleDeleteItem}
+        />
+        <DeleteModal open={deleteItem} setOpen={setDeleteItem} id={id} />
       </div>
     </div>
   );

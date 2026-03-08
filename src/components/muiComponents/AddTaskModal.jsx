@@ -2,10 +2,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { IoClose } from "react-icons/io5";
-import MyButton from "./MyButton";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useTasksStore from "../../store/tasksStore";
+import PriorityButton from "./PriorityButton";
+import MyButton from "./MyButton";
+
 
 const style = {
   position: "absolute",
@@ -45,6 +47,8 @@ export default function AddTaskModal({ open, setOpen }) {
     }
 
     addTask(sendData);
+    reset(),
+    setOpen(false)
 
   };
 
@@ -86,27 +90,26 @@ export default function AddTaskModal({ open, setOpen }) {
           </form>
           <p>Priority</p>
           <div className="mb-15 flex gap-4">
-            <MyButton
+            <PriorityButton
               variant={pick === "High" ? "contained" : "outlined"}
-              value="High"
               color={pick === "High" ? "#fff" : "red"}
               bgcolor={pick === "High" && "red"}
               onClick={handlePick}
-            />
-            <MyButton
+            >High</PriorityButton>
+            <PriorityButton
               variant={pick === "Medium" ? "contained" : "outlined"}
               value="Medium"
               color={pick === "Medium" ? "#fff" : "orange"}
               bgcolor={pick === "Medium" && "orange"}
               onClick={handlePick}
-            />
-            <MyButton
+            >Medium</PriorityButton>
+            <PriorityButton
               variant={pick === "Low" ? "contained" : "outlined"}
               value="Low"
               color={pick === "Low" ? "#fff" : "green"}
               bgcolor={pick === "Low" && "green"}
               onClick={handlePick}
-            />
+            >Low</PriorityButton>
           </div>
 
           <div className="flex justify-end mr-10">
@@ -114,9 +117,8 @@ export default function AddTaskModal({ open, setOpen }) {
               type="submit"
               form="addForm"
               variant="contained"
-              value="ADD"
               bgcolor="#5e24c9"
-            />
+            >Add</MyButton>
           </div>
         </Box>
       </Modal>

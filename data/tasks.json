@@ -17,30 +17,6 @@
       "name": "clean house",
       "progress": 0,
       "priority": "Low"
-    },
-    {
-      "id": "5deb",
-      "progress": 0,
-      "priority": "Low",
-      "name": "asdd"
-    },
-    {
-      "id": "fffe",
-      "name": "asfdasdf",
-      "progress": 0,
-      "priority": "Medium"
-    },
-    {
-      "id": "669b",
-      "name": "asfdasdf",
-      "progress": 0,
-      "priority": "Medium"
-    },
-    {
-      "id": "8f8f",
-      "name": "asdfasdf",
-      "progress": 0,
-      "priority": "Medium"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

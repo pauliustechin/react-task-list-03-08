@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -8,13 +9,35 @@ const useTasksStore = create(devtools((set) => ({
   tasks: [],
 
   getAllTasks: async () => {
-    const { data } = await axios.get(API_URL)
-    set(() => ({tasks: data}))
+    try {
+      const { data } = await axios.get(API_URL);
+      set(() => ({ tasks: data.reverse()}));
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   addTask: async (formData) => {
-    const { data } = await axios.post(API_URL, formData);
-    set((state) => ({tasks: [...state.tasks, data]}))
+    try {
+      const { data } = await axios.post(API_URL, formData);
+      set((state) => ({ tasks: [data, ...state.tasks]}));
+      toast.success("Item added succesfully");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  deleteTask: async (id) => {
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      set((state) => {
+        const filteredTasks = state.tasks.filter((item) => item.id !== id);
+        return {tasks: filteredTasks}
+      })
+      toast.success("Item deleted succesfully");
+    } catch (error) {
+      console.log(error);
+    }
   }
 })));
 

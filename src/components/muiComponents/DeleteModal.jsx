@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import MyButton from "./MyButton";
-
+import useTasksStore from "../../store/tasksStore";
 
 const style = {
   position: "absolute",
@@ -17,9 +17,15 @@ const style = {
   padding:10
 };
 
-export default function Delete({ open, setOpen }) {
+export default function Delete({ open, setOpen, id }) {
 
+  const { deleteTask } = useTasksStore((state) => state)
   const handleClose = () => setOpen(false);
+
+  const handleDelete = () => {
+    deleteTask(id);
+    setOpen(false);
+  }
 
   return (
     <div>
@@ -30,7 +36,7 @@ export default function Delete({ open, setOpen }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div className="flex justify-between items-center mb-10 text-center">
+          <div className="flex justify-center items-center mb-10">
             <Typography
               id="modal-modal-title"
               variant="h6"
@@ -43,16 +49,15 @@ export default function Delete({ open, setOpen }) {
           <div className="flex justify-center gap-10">
             <MyButton
               variant="contained"
-              value="Delete"
               bgcolor="#5e24c9"
-            />
+              onClick={handleDelete}
+            >Delete</MyButton>
             <MyButton
               variant="outlined"
-              value="Cancel"
               bgcolor="#fff"
               color="#8b8686"
               onClick={handleClose}
-            />
+            >Cancel</MyButton>
           </div>
         </Box>
       </Modal>

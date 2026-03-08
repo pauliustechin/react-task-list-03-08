@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 
-const MyButton = ({ variant, color, bgcolor, onClick, type, form, children }) => {
+const PriorityButton = ({ variant, color, bgcolor, children, onClick }) => {
   const style = {
     fontWeight: "bold",
     fontSize: "16px",
@@ -8,14 +8,14 @@ const MyButton = ({ variant, color, bgcolor, onClick, type, form, children }) =>
     borderRadius: "10px",
     color: `${color}`,
     bgcolor: `${bgcolor}`,
-    border: (variant === "outlined" && (`1px solid ${color}`))
+    border: `1px solid ${color}`,
   };
 
   return (
-    <Button variant={variant} sx={style} onClick={onClick} type={type} form={form}>
+    <Button variant={variant} sx={style} onClick={onClick} value={children}>
       {children}
     </Button>
   );
 };
 
-export default MyButton;
+export default PriorityButton;
