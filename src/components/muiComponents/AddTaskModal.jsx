@@ -86,7 +86,7 @@ export default function AddTaskModal({ open, setOpen }) {
                 required: "This field is required",
               })}
             />
-            <p>{errors?.name?.message}</p>
+            <p className="my-error">{errors?.name?.message}</p>
           </form>
           <p>Priority</p>
           <div className="mb-15 flex gap-4">

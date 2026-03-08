@@ -3,10 +3,13 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import CircularProgress from "@mui/material/CircularProgress";
 import DeleteModal from "./muiComponents/DeleteModal";
+import EditTaskModal from "./muiComponents/EditTaskModal";
 import MyButton from "./muiComponents/MyButton";
+import useTasksStore from "../store/tasksStore";
 
 const TaskCard = ({ task }) => {
   const { id, name, progress, priority } = task;
+  const { editTask } = useTasksStore((task) => task);
 
   let priorityColor = "green";
   switch (priority) {
@@ -23,10 +26,34 @@ const TaskCard = ({ task }) => {
       priorityColor = "#fff";
   }
 
-  const [deleteItem, setDeleteItem] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
 
-  const handleDeleteItem = () => {
-    setDeleteItem(true);
+  const handleDeleteTask = () => {
+    setDeleteModal(true);
+  };
+
+  const handleEditTask = () => {
+    setEditModal(true);
+  };
+
+  const handleProgress = () => {
+    let nextProgress = 0;
+    switch (progress) {
+      case 0:
+        nextProgress = 50;
+        break;
+      case 50:
+        nextProgress = 100;
+        break;
+      case 100:
+        nextProgress = 0;
+        break;
+      default:
+        console.log("Something went wrong");
+    }
+
+    editTask(id, { progress: nextProgress });
   };
 
   return (
@@ -39,11 +66,17 @@ const TaskCard = ({ task }) => {
         <p>Priority</p>
         <p className={`font-bold ${priorityColor}`}>{priority}</p>
       </div>
-      <MyButton
-        variant="contained"
-        bgcolor="#e7e3e3"
-        color="#5a5757"
-      >To Do</MyButton>
+      <div className="w-40">
+        <MyButton
+          variant="contained"
+          bgcolor="#e7e3e3"
+          color="#5a5757"
+          onClick={handleProgress}
+        >
+          {progress === 0 ? "To do" : progress === 50 ? "In progress" : "Done"}
+        </MyButton>
+      </div>
+
       <CircularProgress
         variant="determinate"
         enableTrackSlot
@@ -51,12 +84,13 @@ const TaskCard = ({ task }) => {
         sx={{ color: "red" }}
       />
       <div className="flex gap-4">
-        <FaRegEdit className="size-8" />
+        <FaRegEdit className="size-8" onClick={handleEditTask} />
+        <EditTaskModal open={editModal} setOpen={setEditModal} id={id} />
         <MdDeleteOutline
           className="text-red-500 size-8"
-          onClick={handleDeleteItem}
+          onClick={handleDeleteTask}
         />
-        <DeleteModal open={deleteItem} setOpen={setDeleteItem} id={id} />
+        <DeleteModal open={deleteModal} setOpen={setDeleteModal} id={id} />
       </div>
     </div>
   );

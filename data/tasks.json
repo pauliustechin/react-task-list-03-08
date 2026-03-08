@@ -3,19 +3,19 @@
     {
       "id": "1",
       "name": "go to gym",
-      "progress": 0,
+      "progress": 100,
       "priority": "Medium"
     },
     {
       "id": "2",
       "name": "wash dishes",
-      "progress": 50,
+      "progress": 0,
       "priority": "High"
     },
     {
       "id": "3",
       "name": "clean house",
-      "progress": 0,
+      "progress": 50,
       "priority": "Low"
     }
   ],

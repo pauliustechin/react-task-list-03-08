@@ -12,8 +12,13 @@
 
 @layer {
   .my-input{
-    border: 1px solid rgb(218, 213, 213);
+    border: 1px solid #dad5d5;
     height: 2.5rem;
     border-radius: 10px;
+  }
+
+  .my-error{
+    font-weight: bold;
+    color: #a10c0c;
   }
 }

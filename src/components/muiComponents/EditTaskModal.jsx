@@ -1,11 +1,12 @@
-import * as React from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { IoClose } from "react-icons/io5";
 import MyButton from "./MyButton";
-import { useState } from "react";
+import PriorityButton from "./PriorityButton";
+import useTasksStore from "../../store/tasksStore";
 
 const style = {
   position: "absolute",
@@ -19,13 +20,33 @@ const style = {
   borderRadius: 10,
 };
 
-export default function AddTaskModal({ open, setOpen }) {
+export default function EditTaskModal({ open, setOpen, id }) {
   const [pick, setPick] = useState("High");
+  const editTask = useTasksStore((state) => state.editTask);
 
   const handleClose = () => setOpen(false);
 
   const handlePick = (e) => {
     setPick(e.target.value);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (formData) => {
+    const sendData = {
+      ...formData,
+      priority: pick,
+    };
+
+    editTask(id, sendData);
+    reset();
+    setOpen(false);
+
   };
 
   return (
@@ -48,42 +69,61 @@ export default function AddTaskModal({ open, setOpen }) {
             </Typography>
             <IoClose className="text-4xl" onClick={handleClose} />
           </div>
-          <form className="flex flex-col mb-10">
-            <label htmlFor="">Task</label>
-            <input type="text" className="my-input" />
+          <form
+            className="flex flex-col mb-10"
+            onSubmit={handleSubmit(onSubmit)}
+            id="editForm"
+          >
+            <label>Task</label>
+            <input
+              type="text"
+              className="my-input"
+              id="name"
+              {...register("name", {
+                required: "This field is required",
+              })}
+            />
+            <p className="my-error">{errors?.name?.message}</p>
           </form>
           <p>Priority</p>
           <div className="mb-15 flex gap-4">
-            <MyButton
+            <PriorityButton
               variant={pick === "High" ? "contained" : "outlined"}
-              value="High"
               color={pick === "High" ? "#fff" : "red"}
               bgcolor={pick === "High" && "red"}
               onClick={handlePick}
-            />
-            <MyButton
+            >
+              High
+            </PriorityButton>
+            <PriorityButton
               variant={pick === "Medium" ? "contained" : "outlined"}
               value="Medium"
               color={pick === "Medium" ? "#fff" : "orange"}
               bgcolor={pick === "Medium" && "orange"}
               onClick={handlePick}
-            />
-            <MyButton
+            >
+              Medium
+            </PriorityButton>
+            <PriorityButton
               variant={pick === "Low" ? "contained" : "outlined"}
               value="Low"
               color={pick === "Low" ? "#fff" : "green"}
               bgcolor={pick === "Low" && "green"}
               onClick={handlePick}
-            />
+            >
+              Low
+            </PriorityButton>
           </div>
 
           <div className="flex justify-end mr-10">
             <MyButton
+              type="submit"
+              form="editForm"
               variant="contained"
-              value="Edit"
               bgcolor="#5e24c9"
-              onClick={handlePick}
-            />
+            >
+              Edit
+            </MyButton>
           </div>
         </Box>
       </Modal>

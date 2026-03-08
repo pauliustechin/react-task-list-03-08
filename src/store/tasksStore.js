@@ -31,12 +31,31 @@ const useTasksStore = create(devtools((set) => ({
     try {
       await axios.delete(`${API_URL}/${id}`);
       set((state) => {
-        const filteredTasks = state.tasks.filter((item) => item.id !== id);
+        const filteredTasks = state.tasks.filter((task) => task.id !== id);
         return {tasks: filteredTasks}
       })
       toast.success("Item deleted succesfully");
     } catch (error) {
       console.log(error);
+    }
+  },
+
+  editTask: async (id, formData) => {
+    try {
+      const { data } = await axios.patch(`${API_URL}/${id}`, formData);
+      set((state) => {
+        const updatedArray = state.tasks.map(task => {
+          if(task.id === id){
+            return {...task, ...data};
+          }
+          else{
+            return task;
+          }
+        })
+        return {tasks: [...updatedArray]}
+      })
+    } catch (error) {
+      console.log(error)
     }
   }
 })));
